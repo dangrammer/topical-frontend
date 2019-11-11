@@ -67,6 +67,7 @@ export class Login extends Component {
           errors: data.message
         })
       } else {
+        console.log(data)
         this.props.gotToken(data.jwt, data.user.id)
       }
     })

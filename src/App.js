@@ -33,8 +33,7 @@ export default class App extends Component {
   }
 
   logOutClicked = () => {
-    localStorage.token = null
-    localStorage.loggedInUserId = null
+    localStorage.clear()
 
     this.setState({
       token: null,

@@ -11,7 +11,7 @@ export class MainContainer extends Component {
     componentDidMount() {
         fetch('http://localhost:3000/articles', {
             headers: {
-                'Authorization': this.props.token
+                'Authorization': `Bearer ${this.props.token}`
             }
         })
         .then(resp => resp.json())
