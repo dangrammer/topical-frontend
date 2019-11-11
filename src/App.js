@@ -1,17 +1,37 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './App.css'
+import Header from './components/Header'
+import SideBar from './containers/SideBar'
+import MainContainer from './containers/MainContainer'
+import Login from './components/Login'
+import {Jumbotron} from 'react-bootstrap'
 
-function App() {
+export default class App extends Component {
 
-  componentDidMount() {
-    fetch()
+  state = {
+    articles: []
   }
 
-  return (
-    <div className="App">
-      WORKING!
-    </div>
-  )
+  componentDidMount() {
+    fetch('http://localhost:3000/articles')
+    .then(resp => resp.json())
+    .then(data => this.setState({
+      articles: data
+    }))
+  }
+  
+  render() {
+    console.log(this.state.articles)
+    return (
+      <Jumbotron fluid >
+        <div>
+          <Header />
+          <Login />
+          <SideBar />
+          <MainContainer />
+        </div>
+      </Jumbotron>
+    )
+  }
 }
 
-export default App
