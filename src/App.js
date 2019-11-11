@@ -9,27 +9,56 @@ import {Jumbotron} from 'react-bootstrap'
 export default class App extends Component {
 
   state = {
-    articles: []
+    loggedInUserId: null,
+    token: null
   }
 
-  componentDidMount() {
-    fetch('http://localhost:3000/articles')
-    .then(resp => resp.json())
-    .then(data => this.setState({
-      articles: data
-    }))
+  componentDidMount(){
+    if (localStorage.token) {
+      this.setState({
+        token: localStorage.token,
+        loggedInUserId: localStorage.loggedInUserId
+      })
+    }
   }
   
+  gotToken = (token, loggedInUserId) => {
+    localStorage.token = token
+    localStorage.loggedInUserId = loggedInUserId
+
+    this.setState({
+      token,
+      loggedInUserId
+    })
+  }
+
+  logOutClicked = () => {
+    localStorage.token = null
+    localStorage.loggedInUserId = null
+
+    this.setState({
+      token: null,
+      loggedInUserId: null
+    })
+  }
+
   render() {
-    console.log(this.state.articles)
+    console.log(localStorage)
     return (
       <Jumbotron fluid >
-        <div>
-          <Header />
-          <Login />
-          <SideBar />
-          <MainContainer />
-        </div>
+        <Header/>
+        {this.state.token ? 
+          <div>
+            <button onClick={this.logOutClicked}>Log Out</button>
+            <MainContainer token={this.state.token}/>
+            {/* token={this.state.token} 
+            loggedInUserId={this.state.loggedInUserId} */}
+          </div> : 
+          <Login 
+            gotToken={this.gotToken} 
+          />
+        }
+        {/* <SideBar /> */}
       </Jumbotron>
     )
   }

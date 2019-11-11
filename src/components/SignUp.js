@@ -14,7 +14,7 @@ function SignUp(props) {
         onChange={props.handleChange}></input>
         {/* <button onClick={props.SignUpSubmitted}> Sign Up</button> */}
 
-      <input type="submit" value="Sign Up" onSubmit={props.SignUpSubmitted}></input>
+      <input type="submit" value="Sign Up"></input>
     </form>
     )
 }
