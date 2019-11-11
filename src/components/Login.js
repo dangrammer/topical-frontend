@@ -5,9 +5,11 @@ import SignUp from './SignUp'
 export class Login extends Component {
 
   state = {
-    name: '',
-    username: '',
-    password: ''
+    SignupName: '',
+    SignupUsername: '',
+    SignupPassword: '',
+    LoginUsername: '',
+    LoginPassword: ''
   }
 
   handleChange = event => {
@@ -24,9 +26,9 @@ export class Login extends Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        name: this.state.name,
-        username: this.state.username, 
-        password: this.state.password
+        name: this.state.SignupName,
+        username: this.state.SignupUsername, 
+        password: this.state.SignupPassword
       })
     }).then(resp => resp.json())
   }
@@ -35,14 +37,14 @@ export class Login extends Component {
     return (
       <div>
         <Form >
-          <input type="text" name="username" placeholder='Username' value={this.state.username}
+          <input type="text" name="LoginUsername" placeholder='Username' value={this.state.LoginUsername}
           onChange={this.handleChange}></input>
-          <input type="text" name="password" placeholder='Password' value={this.state.password}
+          <input type="text" name="LoginPassword" placeholder='Password' value={this.state.LoginPassword}
           onChange={this.handleChange}></input>
           <input type="submit" value="Log In" ></input>
           {/* <button>Sign Up</button> */}
         </Form>
-        <SignUp name={this.state.name} username={this.state.username} password={this.state.password}
+        <SignUp name={this.state.SignupName} username={this.state.SignupUsername} password={this.state.SignupPassword}
           handleChange={this.handleChange} SignUpSubmitted={this.SignUpSubmitted}/>
       </div>
     )
