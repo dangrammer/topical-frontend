@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import NavBar from '../components/NavBar'
 import ArticleFeed from './ArticleFeed';
 
-export class MainContainer extends Component {
+class MainContainer extends Component {
 
     state = {
         articles: []
@@ -25,6 +25,7 @@ export class MainContainer extends Component {
 
 
     render() {
+        console.log("HI OMG IM HERE")
         return (
             <div>
                 <h2>Main Container</h2>

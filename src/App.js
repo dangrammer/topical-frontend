@@ -5,6 +5,7 @@ import SideBar from './containers/SideBar'
 import MainContainer from './containers/MainContainer'
 import Login from './components/Login'
 import {Jumbotron} from 'react-bootstrap'
+import {Switch, Route, Redirect} from 'react-router-dom'
 
 export default class App extends Component {
 
@@ -42,24 +43,40 @@ export default class App extends Component {
   }
 
   render() {
-    console.log(localStorage)
+    // debugger
+    // localStorage.clear()
     return (
-      <Jumbotron fluid >
-        <Header/>
-        {this.state.token ? 
-          <div>
-            <button onClick={this.logOutClicked}>Log Out</button>
-            <MainContainer token={this.state.token}/>
-            {/* token={this.state.token} 
-            loggedInUserId={this.state.loggedInUserId} */}
-          </div> : 
-          <Login 
-            gotToken={this.gotToken} 
+      <div>
+      <Switch>
+        {this.state.token ?
+          <Route exact path='/home' component={MainContainer}/> :
+            <Route exact path="/" render={(props) => <Login {...props} gotToken={this.gotToken}/>}
           />
         }
-        {/* <SideBar /> */}
-      </Jumbotron>
-    )
-  }
-}
+        {/* <Redirect to='/'/> */}
+      </Switch>
+      </div>  
+        )
+      }
+    }
+    
+    {/* {this.state.token ?
+      <Route path="/home"  component={MainContainer} />
+      :
+    <Route path="/login" component={Login} />} */}
 
+      // <Jumbotron fluid >
+      //   <Header/>
+      //   {this.state.token ? 
+      //     <div>
+      //       <button onClick={this.logOutClicked}>Log Out</button>
+      //       <MainContainer token={this.state.token}/>
+      //       {/* token={this.state.token} 
+      //       loggedInUserId={this.state.loggedInUserId} */}
+      //     </div> : 
+      //     <Login 
+      //       gotToken={this.gotToken} 
+      //     />
+      //   }
+      //   {/* <SideBar /> */}
+      // </Jumbotron>
