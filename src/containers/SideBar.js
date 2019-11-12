@@ -7,11 +7,18 @@ export class SideBar extends Component {
         return (
             <div>
                 <h2>SideBar</h2>
-                <CollectionsBox />
-                {/* conditional statement to render CollectionsBox or Collection */}
+                <CollectionsBox 
+                    collections={this.props.collections}
+                    handleChange={this.props.handleChange}
+                    handleSubmit={this.props.handleSubmit}
+                    collectionName={this.props.collectionName}
+                    clippings={this.props.clippings}
+                    articles={this.props.articles}
+                />
             </div>
         )
     }
 }
 
 export default SideBar
+{/* conditional statement to render CollectionsBox or Collection */}
