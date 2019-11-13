@@ -17,7 +17,7 @@ export class CollectionsBox extends Component {
           />
           <input type="submit" value="submit"/>
         </form>
-        {this.props.collections.map(c =>
+        {this.props.collections.sort((a, b) => a.name.localeCompare(b.name)).map(c =>
           <Collection 
             key={c.id} 
             collection={c}

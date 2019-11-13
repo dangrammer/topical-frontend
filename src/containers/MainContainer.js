@@ -76,10 +76,10 @@ class MainContainer extends Component {
     })
     .then(resp => resp.json())
     .then(data => {
-        console.log('Collection post', data)
-        this.setState({
-            collections: [...this.state.collections, data]
-        })
+      this.setState({
+        collections: [...this.state.collections, data],
+        collectionName: ''
+      })
     })
   }
 
@@ -105,6 +105,7 @@ class MainContainer extends Component {
         clippings: [...this.state.clippings, data]
       })
     })
+    event.target.reset()
   }
 
   render() {

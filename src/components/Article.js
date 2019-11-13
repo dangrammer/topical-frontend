@@ -15,7 +15,7 @@ function Article(props) {
         </Card.Text>
         <form onSubmit={(event) => props.addToCollection(event, props.article.id)}>
           <select name='collection-name'>
-            {props.collections.map(c =>
+            {props.collections.sort((a, b) => a.name.localeCompare(b.name)).map(c =>
               <option key={c.id} value={c.id}>{c.name}</option>
             )}
           </select>
