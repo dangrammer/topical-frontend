@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import {Form} from 'react-bootstrap'
 import SignUp from './SignUp'
+import SignIn from './SignIn'
 
 export class Login extends Component {
 
@@ -10,17 +10,25 @@ export class Login extends Component {
     signupPassword: '',
     loginUsername: '',
     loginPassword: '',
+    newUser: false,
     errors: []
   }
 
   handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value
-    }) //, () => console.log(this.state)
+    })
+  }
+
+  toggleLogin = () => {
+    this.setState({
+      newUser: !this.state.newUser
+    })
   }
 
   SignUpSubmitted = (event) => {
     event.preventDefault()
+
     fetch("http://localhost:3000/users", {
       method: "POST",
       headers: {
@@ -41,7 +49,7 @@ export class Login extends Component {
           errors: data.errors
         })
       } else {
-        this.props.gotToken(data.jwt, data.user.id)
+        this.props.gotToken(data.jwt, data.user.id, data.user.name)
       }
     })
   }
@@ -67,33 +75,43 @@ export class Login extends Component {
           errors: data.message
         })
       } else {
-        console.log(data.errors)
-        this.props.gotToken(data.jwt, data.user.id)
+        this.props.gotToken(data.jwt, data.user.id, data.user.name)
       }
     })
   }
 
   render() {
     return (
-      <div>
-      {/* <ul>
-      {
-        this.state.errors.map(error => <li>{ error }</li>)
-      }
-    </ul> */}
-        <Form onSubmit={this.loginSubmitted}>
-          <input type="text" name="loginUsername" placeholder='Username' value={this.state.loginUsername}
-          onChange={this.handleChange}></input>
-          <input type="text" name="loginPassword" placeholder='Password' value={this.state.loginPassword}
-          onChange={this.handleChange}></input>
-          <input type="submit" value="Log In"></input>
-          {/* <button>Sign Up</button> */}
-        </Form>
-        <SignUp name={this.state.signupName} username={this.state.signupUsername} password={this.state.signupPassword}
-          handleChange={this.handleChange} SignUpSubmitted={this.SignUpSubmitted}/>
-      </div>
+      <>
+        {this.state.newUser ?
+          <>
+            <SignUp 
+              name={this.state.signupName} 
+              username={this.state.signupUsername}
+              password={this.state.signupPassword}
+              handleChange={this.handleChange} 
+              SignUpSubmitted={this.SignUpSubmitted}
+            />
+            <br/>
+            <span>Already have an account? </span> 
+            <button onClick={this.toggleLogin}>Log In</button> 
+          </> :
+            <>
+              <SignIn 
+                username={this.state.loginUsername}
+                password={this.state.loginPassword}
+                handleChange={this.handleChange} 
+                loginSubmitted={this.loginSubmitted}
+              />
+              <br/>
+              <span>New User? </span>
+              <button onClick={this.toggleLogin}>Sign Up</button>
+            </>
+        } 
+      </>
     )
   }
+
 }
 
 export default Login

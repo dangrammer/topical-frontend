@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import './App.css'
 import Header from './components/Header'
 import MainContainer from './containers/MainContainer'
@@ -10,7 +10,8 @@ export default class App extends Component {
 
   state = {
     loggedInUserId: null,
-    token: null
+    token: null,
+    userName: null
   }
 
   componentDidMount(){
@@ -22,13 +23,15 @@ export default class App extends Component {
     }
   }
   
-  gotToken = (token, loggedInUserId) => {
+  gotToken = (token, loggedInUserId, userName) => {
     localStorage.token = token
     localStorage.loggedInUserId = loggedInUserId
+    localStorage.userName = userName
 
     this.setState({
       token,
-      loggedInUserId
+      loggedInUserId,
+      userName
     })
   }
 
@@ -37,46 +40,53 @@ export default class App extends Component {
 
     this.setState({
       token: null,
-      loggedInUserId: null
+      loggedInUserId: null,
+      userName: null
     })
   }
 
   render() {
     // localStorage.clear()
     return (
-      <Jumbotron fluid >
-      <Header/>
-      {this.state.token ? 
-        <div>
-          <button onClick={this.logOutClicked}>Log Out</button>
-          <MainContainer 
-            token={this.state.token}
-            loggedInUserId={this.state.loggedInUserId}
-          />
-        </div> : 
-        <Login gotToken={this.gotToken}/>
-      }
+      <Jumbotron fluid>
+        <Header/>
+        {this.state.token ? 
+          <>
+            <pre>Welcome to Topical, {this.state.userName}!</pre>
+            <button onClick={this.logOutClicked}>Log Out</button>
+            <MainContainer 
+              token={this.state.token}
+              loggedInUserId={this.state.loggedInUserId}
+            />
+          </> : 
+            <>
+              <pre>
+                Topical is the premiere website for scanning the New York Times,<br/>
+                creating customized collections of articles, and keeping notes on<br/>
+                your topics of interest. Hot off the press, just as you want it.
+              </pre>
+              <Login gotToken={this.gotToken}/>
+            </>
+        }
       </Jumbotron>
-      )
-    }
+    )
   }
-    
-    // {/* {this.state.token ?
-    //   <Route path="/home"  component={MainContainer} />
-    //   :
-    // <Route path="/login" component={Login} />} */}
 
+}
     
-     
+// {/* {this.state.token ?
+//   <Route path="/home"  component={MainContainer} />
+//   :
+// <Route path="/login" component={Login} />} */}
 
-      // BOTCHED SWITCH STATEMENT
-      // <div>
-      // <Switch>
-      //   {this.state.token ?
-      //     <Route exact path='/home' component={MainContainer}/> :
-      //       <Route exact path="/" render={(props) => <Login {...props} gotToken={this.gotToken}/>}
-      //     />
-      //   }
-      //   {/* <Redirect to='/'/> */}
-      // </Switch>
-      // </div>  
+// BOTCHED SWITCH STATEMENT
+// <div>
+// <Switch>
+//   {this.state.token ?
+//     <Route exact path='/home' component={MainContainer}/> :
+//       <Route exact path="/" render={(props) => <Login {...props} gotToken={this.gotToken}/>}
+//     />
+//   }
+//   {/* <Redirect to='/'/> */}
+// </Switch>
+// </div>  
