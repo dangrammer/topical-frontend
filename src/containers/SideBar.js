@@ -12,13 +12,14 @@ export class SideBar extends Component {
           handleChange={this.props.handleChange}
           handleSubmit={this.props.handleSubmit}
           collectionName={this.props.collectionName}
-          clippings={this.props.clippings}
-          articles={this.props.articles}
+          editName={this.props.editName}
+          updateCollectionName={this.props.updateCollectionName}
+          deleteClipping={this.props.deleteClipping}
         />
       </div>
     )
   }
-  
+
 }
 
 export default SideBar

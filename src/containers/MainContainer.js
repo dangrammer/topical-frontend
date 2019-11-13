@@ -8,8 +8,8 @@ class MainContainer extends Component {
   state = {
     articles: [],
     collections: [],
-    clippings: [],
-    collectionName: ''
+    collectionName: '',
+    editName: ''
   }
 
   componentDidMount() {
@@ -25,28 +25,18 @@ class MainContainer extends Component {
         articles: data
       })
     })
-
-    fetch(`http://localhost:3000/users/${this.props.loggedInUserId}`, {
-      headers: {
-        'Authorization': `Bearer ${this.props.token}`
-      }
+    
+    fetch('http://localhost:3000/collections', {
+        headers: {
+            'Authorization': `Bearer ${this.props.token}`
+        }
     })
     .then(resp => resp.json())
     .then(data => {
+      const userCollections = data.filter(collection =>
+        collection.user_id === parseInt(this.props.loggedInUserId, 10))
       this.setState({
-        collections: data.collections
-      })
-    })
-
-    fetch('http://localhost:3000/clippings', {
-      headers: {
-        'Authorization': `Bearer ${this.props.token}`
-      }
-    })
-    .then(resp => resp.json())
-    .then(data => {
-      this.setState({
-        clippings: data
+        collections: userCollections
       })
     })
   }
@@ -55,7 +45,7 @@ class MainContainer extends Component {
     event.persist()
 
     this.setState({
-      collectionName: event.target.value
+      [event.target.name]: event.target.value
     })
   }
 
@@ -83,6 +73,32 @@ class MainContainer extends Component {
     })
   }
 
+  updateCollectionName = (event, collectionId) => {
+    event.preventDefault()
+    
+    fetch(`http://localhost:3000/collections/${collectionId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.props.token}`
+      },
+      body: JSON.stringify({
+        name: this.state.editName
+        // user_id: this.props.loggedInUserId
+      })
+    })
+    .then(resp => resp.json())
+    .then(data => {
+        console.log(data)
+      this.setState({
+        collections: [...this.state.collections, data],
+        collectionName: '',
+        editName: ''
+      })
+    })   
+  }
+
   addToCollection = (event, articleId) => {
     event.preventDefault()
     let collectionId = parseInt(event.target['collection-name'].value, 10)
@@ -101,14 +117,52 @@ class MainContainer extends Component {
     })
     .then(resp => resp.json())
     .then(data => {
-      this.setState({
-        clippings: [...this.state.clippings, data]
+     let filteredCollection = this.state.collections.find(collection => {
+          return collection.id === data.collection.id
       })
+    let updateCollection =  () => {
+        return filteredCollection.articles.push(data.article)}
+    updateCollection()
+    // this.setState({
+    //   collections: this.state.collections   
+    // })
+    this.fetchCollections() 
     })
     event.target.reset()
   }
 
+  fetchCollections = () => {
+    fetch('http://localhost:3000/collections', {
+        headers: {
+            'Authorization': `Bearer ${this.props.token}`
+        }
+    })
+    .then(resp => resp.json())
+    .then(data => {
+      const userCollections = data.filter(collection =>
+        collection.user_id === parseInt(this.props.loggedInUserId, 10))
+      this.setState({
+        ...this.state,  
+        collections: userCollections
+      })
+    })
+  }    
+  
+
+  deleteClipping = (clippingId) => {
+      fetch(`http://localhost:3000/clippings/${clippingId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${this.props.token}`
+          }
+      })
+      this.fetchCollections()  
+  }
+
   render() {
+      console.log(this.state.editName)
     return (
       <div>
         <h2>Main Container</h2>
@@ -118,8 +172,9 @@ class MainContainer extends Component {
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit} 
           collectionName={this.state.collectionName}
-          clippings={this.state.clippings}
-          articles={this.state.articles}
+          editName={this.state.editName}
+          updateCollectionName={this.updateCollectionName}
+          deleteClipping={this.deleteClipping}
         />
         <ArticleFeed 
           articles={this.state.articles} 

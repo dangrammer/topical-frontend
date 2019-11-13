@@ -21,8 +21,11 @@ export class CollectionsBox extends Component {
           <Collection 
             key={c.id} 
             collection={c}
-            clippings={this.props.clippings} 
-            articles={this.props.articles}
+            deleteClipping={this.props.deleteClipping}
+            handleChange={this.props.handleChange}
+            collectionName={this.props.collectionName}
+            editName={this.props.editName}
+            updateCollectionName={this.props.updateCollectionName}
           />
         )} 
       </div>
