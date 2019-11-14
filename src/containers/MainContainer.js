@@ -9,11 +9,17 @@ class MainContainer extends Component {
     articles: [],
     collections: [],
     collectionName: '',
-    editName: ''
+    editName: '',
+    sortTerm: '',
+    notepad: ''
   }
 
   componentDidMount() {
-       
+    this.fetchArticles()
+    this.fetchCollections()
+  }
+
+  fetchArticles = () => {
     fetch('http://localhost:3000/articles', {
       headers: {
         'Authorization': `Bearer ${this.props.token}`
@@ -22,23 +28,35 @@ class MainContainer extends Component {
     .then(resp => resp.json())
     .then(data => {
       this.setState({
+        ...this.state,
         articles: data
       })
-    })
-    
+    })    
+  }
+
+  fetchCollections = () => {
     fetch('http://localhost:3000/collections', {
-        headers: {
-            'Authorization': `Bearer ${this.props.token}`
-        }
+      headers: {
+        'Authorization': `Bearer ${this.props.token}`
+      }
     })
     .then(resp => resp.json())
     .then(data => {
+
       const userCollections = data.filter(collection =>
         collection.user_id === parseInt(this.props.loggedInUserId, 10))
+        
       this.setState({
+        ...this.state,  
         collections: userCollections
       })
     })
+  }   
+  
+  articlesProp = () => {
+    return this.state.sortTerm ?
+      this.state.articles.filter(article => article.section === this.state.sortTerm) :
+        this.state.articles     
   }
 
   handleChange = (event) => {
@@ -49,7 +67,13 @@ class MainContainer extends Component {
     })
   }
 
-  handleSubmit = (event) => {
+  setSortTerm = (event) => {
+    this.setState({
+      sortTerm: event.target.value
+    })
+  }
+
+  createCollection = (event) => {
     event.preventDefault()
 
     fetch('http://localhost:3000/collections', {
@@ -85,17 +109,16 @@ class MainContainer extends Component {
       },
       body: JSON.stringify({
         name: this.state.editName
-        // user_id: this.props.loggedInUserId
       })
     })
     .then(resp => resp.json())
     .then(data => {
-        console.log(data)
       this.setState({
-        collections: [...this.state.collections, data],
+        // collections: [...this.state.collections, data],
         collectionName: '',
         editName: ''
       })
+      this.fetchCollections()
     })   
   }
 
@@ -117,69 +140,87 @@ class MainContainer extends Component {
     })
     .then(resp => resp.json())
     .then(data => {
-     let filteredCollection = this.state.collections.find(collection => {
-          return collection.id === data.collection.id
+      let filteredCollection = this.state.collections.find(collection => {
+        return collection.id === data.collection.id
       })
-    let updateCollection =  () => {
+      let updateCollection =  () => {
         return filteredCollection.articles.push(data.article)}
-    updateCollection()
+      updateCollection()
     // this.setState({
     //   collections: this.state.collections   
     // })
-    this.fetchCollections() 
+      this.fetchCollections() 
     })
     event.target.reset()
   }
 
-  fetchCollections = () => {
-    fetch('http://localhost:3000/collections', {
-        headers: {
-            'Authorization': `Bearer ${this.props.token}`
-        }
+  deleteCollection = (collectionId) => {
+    fetch(`http://localhost:3000/collections/${collectionId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.props.token}`
+      }
     })
-    .then(resp => resp.json())
-    .then(data => {
-      const userCollections = data.filter(collection =>
-        collection.user_id === parseInt(this.props.loggedInUserId, 10))
-      this.setState({
-        ...this.state,  
-        collections: userCollections
-      })
+    let filteredCollections = this.state.collections.filter(collection => collection.id !== collectionId)
+
+    this.setState({
+      ...this.state,  
+      collections: filteredCollections
     })
-  }    
-  
+  }
 
   deleteClipping = (clippingId) => {
-      fetch(`http://localhost:3000/clippings/${clippingId}`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${this.props.token}`
-          }
+    fetch(`http://localhost:3000/clippings/${clippingId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.props.token}`
+      }
+    })
+    this.fetchCollections()  
+  }
+
+  saveNotes = (event, collectionId) => {
+    event.preventDefault()
+    fetch(`http://localhost:3000/collections/${collectionId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.props.token}`
+      },
+      body: JSON.stringify({
+        notepad: this.state.notepad
       })
-      this.fetchCollections()  
+    })
+    this.fetchCollections()
   }
 
   render() {
-      console.log(this.state.editName)
     return (
       <div>
-        <h2>Main Container</h2>
+        {/* <h2>Main Container</h2> */}
         <NavBar/>  
         <SideBar 
           collections={this.state.collections} 
           handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit} 
+          notepad={this.state.notepad}
+          saveNotes={this.saveNotes}
+          createCollection={this.createCollection} 
           collectionName={this.state.collectionName}
           editName={this.state.editName}
           updateCollectionName={this.updateCollectionName}
+          deleteCollection={this.deleteCollection}
           deleteClipping={this.deleteClipping}
         />
         <ArticleFeed 
-          articles={this.state.articles} 
+          articles={this.articlesProp()} 
           collections={this.state.collections}
           addToCollection={this.addToCollection}
+          setSortTerm={this.setSortTerm}
         />
       </div>
     )

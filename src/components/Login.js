@@ -93,8 +93,7 @@ export class Login extends Component {
               SignUpSubmitted={this.SignUpSubmitted}
             />
             <br/>
-            <span>Already have an account? </span> 
-            <button onClick={this.toggleLogin}>Log In</button> 
+            <pre>Already have an account?  <button onClick={this.toggleLogin}>Log In</button></pre> 
           </> :
             <>
               <SignIn 
@@ -104,8 +103,7 @@ export class Login extends Component {
                 loginSubmitted={this.loginSubmitted}
               />
               <br/>
-              <span>New User? </span>
-              <button onClick={this.toggleLogin}>Sign Up</button>
+              <pre>New User? <button onClick={this.toggleLogin}>Sign Up</button></pre>
             </>
         } 
       </>

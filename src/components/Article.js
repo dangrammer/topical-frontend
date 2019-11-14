@@ -2,25 +2,49 @@ import React from 'react'
 import {Card} from 'react-bootstrap'
 
 function Article(props) {
+
+  const months = [
+    'January', 
+    'February', 
+    'March', 
+    'April', 
+    'May', 
+    'June', 
+    'July', 
+    'August', 
+    'September', 
+    'October', 
+    'November', 
+    'December'
+  ]
+  // console.log(daysOfWeek[date.getDay()])
+  // let daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  const date = new Date(props.article.publication_date)
+  const publication_date = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
+
   return (
-    <Card style={{ width: '18rem' }}>
+    <Card style={{width: '18rem'}}>
       <Card.Img variant="top" src={props.article.image_url}/>
       <Card.Body>
         <Card.Title><a href={props.article.url}>{props.article.title}</a></Card.Title>
         <Card.Text>
           <span>{props.article.author}</span><br/>
-          <span>{props.article.publication_date}</span><br/>
+          <br/>
+          <span>{publication_date}</span><br/>
           <br/>
           {props.article.description}
         </Card.Text>
-        <form onSubmit={(event) => props.addToCollection(event, props.article.id)}>
-          <select name='collection-name'>
-            {props.collections.sort((a, b) => a.name.localeCompare(b.name)).map(c =>
-              <option key={c.id} value={c.id}>{c.name}</option>
-            )}
-          </select>
-          <input type='submit' value='Add to Collection'/>
-        </form>
+        {props.collections.length > 0 ?
+          <form onSubmit={(event) => props.addToCollection(event, props.article.id)}>
+            <select name='collection-name'>
+              {props.collections.sort((a, b) => a.name.localeCompare(b.name)).map(c =>
+                <option key={c.id} value={c.id}>{c.name}</option>
+              )}
+            </select>
+            <input type='submit' value='Add to Collection'/>
+          </form> :
+            <span><em>*Create a collection in the sidebar to start collecting articles!</em></span>
+        }
       </Card.Body>
     </Card>
   )

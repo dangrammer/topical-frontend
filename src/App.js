@@ -9,8 +9,8 @@ import {Jumbotron} from 'react-bootstrap'
 export default class App extends Component {
 
   state = {
-    loggedInUserId: null,
     token: null,
+    loggedInUserId: null,
     userName: null
   }
 
@@ -18,7 +18,8 @@ export default class App extends Component {
     if (localStorage.token) {
       this.setState({
         token: localStorage.token,
-        loggedInUserId: localStorage.loggedInUserId
+        loggedInUserId: localStorage.loggedInUserId,
+        userName: localStorage.userName
       })
     }
   }
@@ -66,6 +67,12 @@ export default class App extends Component {
                 your topics of interest. Hot off the press, just as you want it.
               </pre>
               <Login gotToken={this.gotToken}/>
+              <pre>
+                Disclaimer: The New York Times has a paywall on their website.<br/>
+                Topical allows for collecting articles with photo, title, byline,<br/> 
+                publication date, abstract, and weblink, however, access to full<br/>
+                article content will require users to engage said paywall. It's cheap!
+              </pre>
             </>
         }
       </Jumbotron>

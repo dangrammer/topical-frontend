@@ -6,8 +6,8 @@ export class CollectionsBox extends Component {
   render() {
     return (
       <div>
-        Collections Box
-        <form onSubmit={this.props.handleSubmit}>
+        <h4>(Collections Box)</h4>
+        <form onSubmit={this.props.createCollection}>
           <input 
             type="text" 
             name="collectionName" 
@@ -15,17 +15,20 @@ export class CollectionsBox extends Component {
             value={this.props.collectionName}
             onChange={this.props.handleChange}
           />
-          <input type="submit" value="submit"/>
+          <input type="submit" value="Add Collection"/>
         </form>
-        {this.props.collections.sort((a, b) => a.name.localeCompare(b.name)).map(c =>
+        {this.props.collections.sort((a, b) => a.name.localeCompare(b.name)).map(collection =>
           <Collection 
-            key={c.id} 
-            collection={c}
-            deleteClipping={this.props.deleteClipping}
+            key={collection.id} 
+            collection={collection}
             handleChange={this.props.handleChange}
-            collectionName={this.props.collectionName}
+            notepad={this.props.notepad}
+            saveNotes={this.props.saveNotes}
             editName={this.props.editName}
+            collectionName={this.props.collectionName}
             updateCollectionName={this.props.updateCollectionName}
+            deleteCollection={this.props.deleteCollection}
+            deleteClipping={this.props.deleteClipping}
           />
         )} 
       </div>
