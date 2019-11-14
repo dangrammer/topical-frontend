@@ -49,12 +49,15 @@ export default class App extends Component {
   render() {
     // localStorage.clear()
     return (
-      <Jumbotron fluid>
-        <Header/>
+      // <Jumbotron fluid>
+      <>
+        <Header 
+          userName={this.state.userName} 
+          logOutClicked={this.logOutClicked}
+          token={this.state.token}
+        />
         {this.state.token ? 
           <>
-            <pre>Welcome to Topical, {this.state.userName}!</pre>
-            <button onClick={this.logOutClicked}>Log Out</button>
             <MainContainer 
               token={this.state.token}
               loggedInUserId={this.state.loggedInUserId}
@@ -75,7 +78,8 @@ export default class App extends Component {
               </pre>
             </>
         }
-      </Jumbotron>
+      </>
+      // </Jumbotron>
     )
   }
 

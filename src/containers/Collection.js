@@ -25,7 +25,7 @@ export default class Collection extends Component {
         {this.state.articleToggle ? 
           <>
             <>
-              <strong onClick={this.showArticles}>{this.props.collection.name} </strong>
+              <strong onClick={this.showArticles}>{this.props.collection.name}</strong>
               {this.state.buttonToggle ?
                 <>
                   <button name='editButton' onClick={this.editCollection}>Done</button>

@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import NavBar from '../components/NavBar'
 import ArticleFeed from './ArticleFeed'
 import SideBar from './SideBar'
+import Header from '../components/Header'
+import {Jumbotron, Container, Row, Col} from 'react-bootstrap'
 
 class MainContainer extends Component {
 
@@ -196,14 +197,31 @@ class MainContainer extends Component {
         notepad: this.state.notepad
       })
     })
-    this.fetchCollections()
+    .then(resp => resp.json())
+    .then(data => {
+      console.log(data)
+      this.setState({
+        ...this.state,
+        notepad: data.notepad
+      })
+      this.fetchCollections()
+    })
   }
 
   render() {
     return (
-      <div>
-        {/* <h2>Main Container</h2> */}
-        <NavBar/>  
+        <>
+        <Jumbotron 
+          fluid 
+          style={{ 
+            backgroundImage: `url(https://digitalsynopsis.com/wp-content/uploads/2017/02/beautiful-color-gradients-backgrounds-075-clean-mirror.png)`,
+            backgroundSize: 'cover', 
+            backgroundAttachment: 'fixed'
+          }}
+        > 
+        <Container>
+        <Row>
+        <Col sm={3}>
         <SideBar 
           collections={this.state.collections} 
           handleChange={this.handleChange}
@@ -216,13 +234,22 @@ class MainContainer extends Component {
           deleteCollection={this.deleteCollection}
           deleteClipping={this.deleteClipping}
         />
+        </Col>
+        <Col sm={9}>
         <ArticleFeed 
           articles={this.articlesProp()} 
           collections={this.state.collections}
           addToCollection={this.addToCollection}
           setSortTerm={this.setSortTerm}
         />
-      </div>
+        </Col>
+        </Row>
+        </Container>
+      </Jumbotron>
+      </>
+
+
+
     )
   }
 

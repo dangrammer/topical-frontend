@@ -6,7 +6,7 @@ export class CollectionsBox extends Component {
   render() {
     return (
       <div>
-        <h4>(Collections Box)</h4>
+        <h4>Your Topics</h4>
         <form onSubmit={this.props.createCollection}>
           <input 
             type="text" 
@@ -17,6 +17,7 @@ export class CollectionsBox extends Component {
           />
           <input type="submit" value="Add Collection"/>
         </form>
+        <br/>
         {this.props.collections.sort((a, b) => a.name.localeCompare(b.name)).map(collection =>
           <Collection 
             key={collection.id} 
