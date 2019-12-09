@@ -25,7 +25,7 @@ export default class Collection extends Component {
         {this.state.articleToggle ? 
           <>
             <>
-              <strong onClick={this.showArticles}>{this.props.collection.name}</strong>
+              <strong onClick={this.showArticles} style={{cursor: 'pointer'}}>{this.props.collection.name}</strong>
               {this.state.buttonToggle ?
                 <>
                   <button name='editButton' onClick={this.editCollection}>Done</button>
@@ -85,7 +85,7 @@ export default class Collection extends Component {
             }
             
           </> : 
-            <p onClick={this.showArticles}><strong>{this.props.collection.name}</strong></p>
+            <p onClick={this.showArticles} style={{cursor: 'pointer'}}><strong>{this.props.collection.name}</strong></p>
         }
       </div>
     )
