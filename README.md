@@ -6,16 +6,16 @@
 />
 
 App for scanning the New York Times and creating collections of articles based on specific 
-topics of interest (beta). It is a project application done for module 4 of Flatiron School. 
+topics of interest. It is a project application done for module 4 of Flatiron School. 
 This project has several unfinsihed features and bugs that will be worked out in the future.
-These include to-dos like: 
+To-dos include: 
   - repair functionality of React Router
   - add custom validation error messages
   - enhance styling
 
 ## Authors
-  - Lisa LaRochelle [lilaro](https://github.com/lilaro)
-  - Dan Romans [dangrammer](https://github.com/dangrammer)
+  - Lisa LaRochelle | [lilaro](https://github.com/lilaro)
+  - Dan Romans | [dangrammer](https://github.com/dangrammer)
 
 ## Backend Repository
   - [Topical API](https://github.com/dangrammer/topical-backend)
