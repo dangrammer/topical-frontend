@@ -56,7 +56,7 @@ export default class App extends Component {
           logOutClicked={this.logOutClicked}
           token={this.state.token}
         />
-        {this.state.token ? 
+        {this.state.token != null ? 
           <>
             <MainContainer 
               token={this.state.token}

@@ -2,7 +2,7 @@
   src="public/images/banner.png" 
   alt="Topical banner" 
   width="1350" 
-  height="200"
+  height="100"
 />
 
 App for scanning the New York Times and creating collections of articles based on specific 
@@ -13,13 +13,17 @@ These include to-dos like:
   - add custom validation error messages
   - enhance styling
 
+## Authors
+  - Lisa LaRochelle [lilaro](https://github.com/lilaro)
+  - Dan Romans [dangrammer](https://github.com/dangrammer)
+
 ## Backend Repository
   - [Topical API](https://github.com/dangrammer/topical-backend)
 
 ## Languages/Libraries:
 
   - HTML5 (JSX)
-  - CSS3 (customized - no templates)
+  - CSS3
   - ES6 JavaScript
   - React ^16.11.0 
   - React-Dom ^16.11.0 
@@ -43,21 +47,21 @@ These include to-dos like:
 
 ## Screenshots
 
-  <!-- Login/Signup
+  Login/Signup
   <br/>
   ![Login/Signup Demo](public/gifs/loginSignup.gif)
 
-  Listings
+  Filter Articles
   <br/>
-  ![Listings Demo](public/gifs/listings.gif)
+  ![Filter Demo](public/gifs/filterArticle.gif)
 
-  Profiles
+  Add, Edit, and Delete Collection
   <br/>
-  ![Profiles Demo](public/gifs/profiles.gif)
+  ![Collections Demo](public/gifs/addEditDeleteCollection.gif)
 
-  Dashboard
+  Add and Edit Articles and Notes
   <br/>
-  ![Dashboard Demo](public/gifs/dashboard.gif) -->
+  ![Articles Demo](public/gifs/addEditCollectionAndNotes.gif)
 
 ## How To Install and Run 
 
@@ -68,7 +72,7 @@ These include to-dos like:
   5. run `npm start` in terminal to launch the app in browser
 
   *_Note: If backend server is already running, it will be running on http://localhost:3000/. After 
-  running `npm start`, follow prompt and enter `y` in terminal to run frontend on alternate port._
+  running_ `npm start`_, follow prompt and enter_ `y` _in terminal to run frontend on alternate port._
 
 
 
